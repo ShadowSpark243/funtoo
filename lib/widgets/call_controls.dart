@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funtoo/utils/constants.dart';
 
 class CallControls extends StatelessWidget {
   final String contact;
@@ -17,7 +18,7 @@ class CallControls extends StatelessWidget {
       children: [
         Text(
           'Call with $contact',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textColor),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

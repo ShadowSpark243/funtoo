@@ -31,7 +31,9 @@ class FuntooApp extends StatelessWidget {
           bodyMedium: TextStyle(color: AppColors.subtitleColor),
         ),
       ),
-      home: const FuntooHomePage(), // Matches your home.dart class name
+      home: const FuntooHomePage(
+          userName: 'Your Name',
+          userId: 'YourID'), // Provide userName and userId
     );
   }
 }

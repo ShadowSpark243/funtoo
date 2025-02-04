@@ -8,12 +8,12 @@ class FriendRequestItem extends StatelessWidget {
   final VoidCallback onDecline;
 
   const FriendRequestItem({
-    Key? key,
+    super.key,
     required this.name,
     required this.username,
     required this.onAccept,
     required this.onDecline,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

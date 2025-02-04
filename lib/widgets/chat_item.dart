@@ -7,11 +7,11 @@ class ChatItem extends StatelessWidget {
   final VoidCallback onLongPress;
 
   const ChatItem({
-    Key? key,
+    super.key,
     required this.name,
     required this.subtitle,
     required this.onLongPress,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

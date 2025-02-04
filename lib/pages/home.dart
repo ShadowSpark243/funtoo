@@ -5,16 +5,20 @@ import '../models/group_request.dart';
 import '../utils/constants.dart';
 import '../widgets/chat_item.dart';
 import '../widgets/call_controls.dart';
+import 'notification_page.dart';
 
 class FuntooHomePage extends StatefulWidget {
-  const FuntooHomePage({super.key});
+  const FuntooHomePage(
+      {super.key, required this.userName, required this.userId});
+
+  final String userName;
+  final String userId;
 
   @override
   State<FuntooHomePage> createState() => _FuntooHomePageState();
 }
 
 class _FuntooHomePageState extends State<FuntooHomePage> {
-  final String userId = "FUNTOO#1234";
   final List<FriendRequest> friendRequests = [
     FriendRequest(name: 'Alice', username: '@alice92'),
     FriendRequest(name: 'Bob', username: '@bobmarine'),
@@ -44,29 +48,63 @@ class _FuntooHomePageState extends State<FuntooHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Funtoo',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(120.0),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue, Colors.purple],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.userName,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold),
                   ),
+                  Text(
+                    'ID: ${widget.userId}',
+                    style: TextStyle(color: Colors.white70, fontSize: 16),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: Icon(Iconsax.user_add, color: Colors.white),
+                        onPressed: _showFriendRequests,
+                      ),
+                      IconButton(
+                        icon: Icon(Iconsax.people, color: Colors.white),
+                        onPressed: _showGroupRequests,
+                      ),
+                      IconButton(
+                        icon: Icon(Iconsax.notification, color: Colors.white),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NotificationPage()),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            Text(
-              'ID: $userId',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white70),
-            ),
-          ],
+          ),
         ),
-        actions: [
-          IconButton(icon: Icon(Iconsax.user_add), onPressed: _showFriendRequests),
-          IconButton(icon: Icon(Iconsax.people), onPressed: _showGroupRequests),
-          IconButton(icon: Icon(Iconsax.notification), onPressed: () {}),
-        ],
-        backgroundColor: primaryColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -157,14 +195,24 @@ class _FuntooHomePageState extends State<FuntooHomePage> {
               itemBuilder: (context, index) {
                 final request = requests[index];
                 return ListTile(
-                  title: Text(request is FriendRequest ? request.name : (request as GroupRequest).groupName),
-                  subtitle: Text(request is FriendRequest ? request.username : '${(request as GroupRequest).members} Members'),
+                  title: Text(request is FriendRequest
+                      ? request.name
+                      : (request as GroupRequest).groupName),
+                  subtitle: Text(request is FriendRequest
+                      ? request.username
+                      : '${(request as GroupRequest).members} Members'),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      IconButton(icon: Icon(Icons.check, color: Colors.green), onPressed: () => accept(request)),
-                      IconButton(icon: Icon(Icons.close, color: Colors.red), onPressed: () {}),
-                      IconButton(icon: Icon(Icons.block, color: Colors.orange), onPressed: () {}),
+                      IconButton(
+                          icon: Icon(Icons.check, color: Colors.green),
+                          onPressed: () => accept(request)),
+                      IconButton(
+                          icon: Icon(Icons.close, color: Colors.red),
+                          onPressed: () {}),
+                      IconButton(
+                          icon: Icon(Icons.block, color: Colors.orange),
+                          onPressed: () {}),
                     ],
                   ),
                 );

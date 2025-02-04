@@ -7,11 +7,11 @@ class ChatListItem extends StatelessWidget {
   final VoidCallback onTap;
 
   const ChatListItem({
-    Key? key,
+    super.key,
     required this.name,
     required this.lastMessage,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

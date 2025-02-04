@@ -5,6 +5,7 @@ import '../models/group_request.dart';
 import '../utils/constants.dart';
 import '../widgets/chat_item.dart';
 import '../widgets/call_controls.dart';
+import '../widgets/custom_app_bar.dart';
 import 'notification_page.dart';
 
 class FuntooHomePage extends StatefulWidget {
@@ -91,11 +92,13 @@ class _FuntooHomePageState extends State<FuntooHomePage> {
                       IconButton(
                         icon: Icon(Iconsax.notification, color: Colors.white),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NotificationPage()),
-                          );
+                          Navigator.pushNamed(context, '/notifications');
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.person),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/profile');
                         },
                       ),
                     ],
@@ -112,25 +115,44 @@ class _FuntooHomePageState extends State<FuntooHomePage> {
           children: [
             _buildSectionHeader('Friends'),
             if (acceptedFriends.isEmpty) _buildEmptyState('No friends yet!'),
-            ...acceptedFriends.map((friend) => ChatItem(
-                  name: friend.name,
-                  subtitle: friend.username,
-                  onLongPress: () => _startCall(context, friend.name),
+            ...acceptedFriends.map((friend) => GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/chat',
+                        arguments: friend.name);
+                  },
+                  child: ChatItem(
+                    name: friend.name,
+                    subtitle: friend.username,
+                    onLongPress: () => _startCall(context, friend.name),
+                  ),
                 )),
+
             _buildSectionHeader('Groups'),
             if (joinedGroups.isEmpty) _buildEmptyState('No groups joined yet!'),
-            ...joinedGroups.map((group) => ChatItem(
-                  name: group.groupName,
-                  subtitle: '${group.members} Members',
-                  onLongPress: () => _startCall(context, group.groupName),
+            ...joinedGroups.map((group) => GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/group-chat',
+                        arguments: group.groupName);
+                  },
+                  child: ChatItem(
+                    name: group.groupName,
+                    subtitle: '${group.members} Members',
+                    onLongPress: () => _startCall(context, group.groupName),
+                  ),
                 )),
+            _buildSectionHeader('Recent Chats'),
+            // Placeholder for recent chats section
+            // You can implement this as needed
+            SizedBox(height: 20),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: secondaryColor,
         child: Icon(Iconsax.microphone),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, '/new-chat');
+        },
       ),
     );
   }
